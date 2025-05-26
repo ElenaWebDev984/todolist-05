@@ -16,6 +16,10 @@ export type Todolist = {
   filter: FilterValues
 }
 
+type TasksState = {
+  [todolistId: string]: Task[]
+}
+
 export const App = () => {
 
   // TODO DATA (model, BLL) => action
@@ -27,7 +31,7 @@ export const App = () => {
     {id: todolistId_2, title: 'What to buy', filter: 'all',},
   ])
 
-  const [tasks, setTasks] = useState({
+  const [tasks, setTasks] = useState<TasksState>({
     [todolistId_1]: [
       { id: v1(), title: 'HTML&CSS', isDone: true },
       { id: v1(), title: 'JS', isDone: true },
@@ -41,18 +45,22 @@ export const App = () => {
   })
 
   // TODO delete
-  const deleteTask = (taskId: string) => {
-    const nextState: Task[] = tasks.filter((task: Task) => task.id !== taskId)
-    setTasks(nextState)
+  const deleteTask = (taskId: string, todolistId: string) => {
+    setTasks({...tasks, [todolistId]: tasks[todolistId].filter((task: Task) => task.id !== taskId)})
   }
 
   // TODO create
-  const createTask = (title: string) => {
-    setTasks([...tasks, {id: v1(), title, isDone: false}])
+  const createTask = (title: string, todolistId: string) => {
+    const newTask: Task = {
+      id: v1(),
+      title: title,
+      isDone: false,
+    }
+    setTasks({...tasks, [todolistId]: [...tasks[todolistId], newTask]})
   }
 
   // TODO update task => update task status (isDone)
-  const changeTaskStatus = (taskId: string, newIsDoneValue: boolean) => {
+  const changeTaskStatus = (taskId: string, newIsDoneValue: boolean, todolistId: string) => {
     const nextState: Task[] = (tasks.map(task => task.id === taskId ? { ...task, newIsDoneValue} : task))
     setTasks(nextState)
 
