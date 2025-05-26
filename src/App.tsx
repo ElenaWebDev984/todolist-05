@@ -26,7 +26,7 @@ export const App = () => {
   const todolistId_1 = v1()
   const todolistId_2 = v1()
 
-  const [todolist, setTodolist] = useState<Todolist[>([
+  const [todolists, setTodolists] = useState<Todolist[]>([
     {id: todolistId_1, title: 'What to learn', filter: 'all',},
     {id: todolistId_2, title: 'What to buy', filter: 'all',},
   ])
@@ -46,7 +46,8 @@ export const App = () => {
 
   // TODO delete
   const deleteTask = (taskId: string, todolistId: string) => {
-    setTasks({...tasks, [todolistId]: tasks[todolistId].filter((task: Task) => task.id !== taskId)})
+    setTasks({...tasks,
+      [todolistId]: tasks[todolistId].filter((task: Task) => task.id !== taskId)})
   }
 
   // TODO create
@@ -56,21 +57,19 @@ export const App = () => {
       title: title,
       isDone: false,
     }
-    setTasks({...tasks, [todolistId]: [...tasks[todolistId], newTask]})
+    setTasks({...tasks,
+      [todolistId]: [...tasks[todolistId], newTask]})
   }
 
   // TODO update task => update task status (isDone)
   const changeTaskStatus = (taskId: string, newIsDoneValue: boolean, todolistId: string) => {
-    const nextState: Task[] = (tasks.map(task => task.id === taskId ? { ...task, newIsDoneValue} : task))
-    setTasks(nextState)
-
-    setTasks(tasks.map(task => task.id === taskId ? { ...task, isDone: newIsDoneValue } : task))
+    setTasks({...tasks,
+      [todolistId]: tasks[todolistId].map(task => task.id === taskId ? { ...task, newIsDoneValue} : task)})
   }
 
   //  TODO UI (view) => element for action ('form', 'button') +
-  const [filter, setFilter] = useState<FilterValues>('all')
-  const changeFilter = (filter: FilterValues) => {
-    setFilter(filter)
+  const changeFilter = (filter: FilterValues, todolistId: string) => {
+    setTodolists(todolists.map(todolist => todolist.id === todolistId ? {...todolist, filter} : todolist))
   }
 
   const getFilteredTasks = (tasks: Task[], filter: FilterValues) => {
