@@ -11,6 +11,7 @@ type Props = {
     changeFilter: (filter: FilterValues, todolistId: string) => void
     createTask: (title: string, todolistId: string) => void
     changeTaskStatus: (taskId: string, isDone: boolean, todolistId: string) => void
+    deleteTodolist: (todolistId: string) => void
 }
 
 export const TodolistItem = (props: Props) => {
@@ -23,6 +24,7 @@ export const TodolistItem = (props: Props) => {
         createTask,
         changeTaskStatus,
         filter,
+        deleteTodolist
     } = props
 
     const [taskTitle, setTaskTitle] = useState('')
@@ -51,7 +53,10 @@ export const TodolistItem = (props: Props) => {
 
     return (
         <div>
-            <h3>{title}</h3>
+            <h3>
+                {title}
+                <Button title='x' onClick={() => deleteTodolist(todolistId)}/>
+            </h3>
             <div>
                 <input className={error ? 'error' : ''}
                        value={taskTitle}
