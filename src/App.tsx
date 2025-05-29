@@ -73,10 +73,13 @@ export const App = () => {
         })
     }
 
-    //  TODO UI (view) => element for action ('form', 'button') +
+    // TODO update todolist
     const changeFilter = (filter: FilterValues, todolistId: string) => {
         setTodolists(todolists.map(todolist => todolist.id === todolistId ? {...todolist, filter} : todolist))
     }
+
+    //  TODO UI (view) => element for action ('form', 'button') +
+
 
     const getFilteredTasks = (tasks: Task[], filter: FilterValues) => {
         let filteredTasks: Task[] = tasks
@@ -95,7 +98,7 @@ export const App = () => {
                 key={todolist.id}
                 todolistId={todolist.id}
                 title={todolist.title}
-                tasks={getFilteredTasks((tasks, filter))}
+                tasks={getFilteredTasks(tasks[todolist.id], todolist.filter)}
                 deleteTask={deleteTask}
                 changeFilter={changeFilter}
                 createTask={createTask}
