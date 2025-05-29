@@ -81,6 +81,7 @@ export const App = () => {
     // TODO delete todolist
     const deleteTodolist = (todolistId: string) => {
         setTodolists(todolists.filter(todolist => todolist.id !== todolistId ))
+        delete tasks[todolistId]
     }
 
     //  TODO UI (view) => element for action ('form', 'button') +
