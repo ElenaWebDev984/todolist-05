@@ -69,13 +69,18 @@ export const App = () => {
     const changeTaskStatus = (taskId: string, newIsDoneValue: boolean, todolistId: string) => {
         setTasks({
             ...tasks,
-            [todolistId]: tasks[todolistId].map(task => task.id === taskId ? {...task, newIsDoneValue} : task)
+            [todolistId]: tasks[todolistId].map(task => task.id === taskId ? {...task, isDone: newIsDoneValue} : task)
         })
     }
 
-    // TODO update todolist
+    // TODO update todolist => update todolist filter
     const changeFilter = (filter: FilterValues, todolistId: string) => {
         setTodolists(todolists.map(todolist => todolist.id === todolistId ? {...todolist, filter} : todolist))
+    }
+
+    // TODO delete todolist
+    const deleteTodolist = (todolistId: string) => {
+        setTodolists(todolists.filter(todolist => todolist.id !== todolistId ))
     }
 
     //  TODO UI (view) => element for action ('form', 'button') +
